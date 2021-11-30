@@ -1,0 +1,416 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- page content -->
+<div class="right_col" role="main">
+  <div class="" id="dataRekap">
+    <div class="page-title">
+
+      <div class="title_left">
+        <h3>Laporan Penjualan dan Pembelian</h3>
+      </div>
+
+      <!-- <div class="title_right">
+        <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search for...">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button">Go!</button>
+            </span>
+          </div>
+        </div>
+      </div> -->
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+      <div class="col-md-6 col-sm-6  ">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>Penjualan Perbulan</h2>
+            <!-- <ul class="nav navbar-right panel_toolbox">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Settings 1</a>
+                    <a class="dropdown-item" href="#">Settings 2</a>
+                  </div>
+              </li>
+              <li><a class="close-link"><i class="fa fa-close"></i></a>
+              </li>
+            </ul> -->
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <canvas id="speedChart2"></canvas>
+            <hr>
+            <!-- <div class="card-body">
+              <div class="chart-area">
+                <canvas id="speedChart2"></canvas>
+              </div>
+            </div> -->
+            <table style="font-size: 15px">
+              <tr>
+                <td width="200px">Harga penjualan tertinggi </td>
+                <td> : {{ penjualan_termahal }} </td>
+              </tr>
+              <tr>
+                <td>Harga penjualan terendah </td>
+                <td> : {{ perjualan_terendah }}</td>
+              </tr>
+              <tr>
+                <td>Total penjualan </td>
+                <td> : &#8226; {{ total_penjualan }} jeans</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td> : &#8226; Rp {{ harga_penjualan }} ,-</td>
+              </tr>
+              <tr>
+                <td>Merk terlaris </td>
+                <td> : {{ modus_penjualan }} </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-sm-6  ">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>Pembelian Perbulan</h2>
+            <!-- <ul class="nav navbar-right panel_toolbox">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Settings 1</a>
+                    <a class="dropdown-item" href="#">Settings 2</a>
+                  </div>
+              </li>
+              <li><a class="close-link"><i class="fa fa-close"></i></a>
+              </li>
+            </ul> -->
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <canvas id="speedChart3"></canvas>
+            <hr>
+            <!-- <div class="card-body">
+              <div class="chart-area">
+                  <canvas id="speedChart3"></canvas>
+              </div>
+            </div> -->
+            <table style="font-size: 15px">
+              <tr>
+                <td width="200px">Harga penjualan tertinggi </td>
+                <td> : {{ pembelian_tertinggi }} </td>
+              </tr>
+              <tr>
+                <td>Harga penjualan terendah </td>
+                <td> : {{ pembelian_terendah }}</td>
+              </tr>
+              <tr>
+                <td>Total penjualan </td>
+                <td> : &#8226; {{ total_pembelian }} jeans</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td> : &#8226; Rp {{ harga_pembelian }} ,-</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="clearfix"></div>
+  </div>
+
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Rekap Laporan</h3>
+        <!-- <br> -->
+        <button type='' class="btn btn-primary" id="btnRekap" value="Export">Unduh Rekap</button>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  
+
+</div>
+<!-- /page content -->
+
+  <!-- Page Grafik -->
+  <script src="{% static 'grafik/vendor/chart.js/Chart.min.js' %}"></script>
+  <!-- <script src="{% static 'grafik/js/demo/chart-bar-demo.js' %}"></script>
+  <script src="{% static 'grafik/js/demo/chart-area-demo.js' %}"></script> -->
+
+  <!-- Area Chart -->
+  <script type="text/javascript">
+
+  Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+  Chart.defaults.global.defaultFontColor = '#858796';
+
+    // line chart
+    var speedCanvas = document.getElementById("speedChart2");
+
+    Chart.defaults.global.defaultFontFamily = "Lato";
+    Chart.defaults.global.defaultFontSize = 18;
+
+    var dataFirst = {
+        label: "Grafik Penjualan Jeans",
+        data: [10, 13, 7, 15, 15, 15, 20, 10, 17, 10, 15, 15],
+        lineTension: 0,
+        fill: false,
+        borderColor: 'cyan'
+      };
+
+    var speedData = {
+      labels: ["Jan", "Feb", "Mar", "Apr", "Meil", "Jun", "Jul", "Ags", "Sep", "Okt", "Nov", "Des"],
+      datasets: [dataFirst]
+    };
+
+    var chartOptions = {
+      legend: {
+        display: true,
+        position: 'top',
+        labels: {
+          boxWidth: 80,
+          fontColor: 'black'
+        }
+      }
+    };
+
+    var lineChart = new Chart(speedCanvas, {
+      type: 'line',
+      data: speedData,
+      options: chartOptions
+    });
+
+    //line chart 2
+    var speedCanvas = document.getElementById("speedChart3");
+
+    Chart.defaults.global.defaultFontFamily = "Lato";
+    Chart.defaults.global.defaultFontSize = 18;
+
+    var dataFirst = {
+        label: "Grafik Pembelian Jeans",
+        data: [10, 10, 20, 20, 15, 15, 25, 25, 15, 15, 10, 10],
+        lineTension: 0,
+        fill: false,
+        borderColor: 'orange'
+      };
+
+    var speedData = {
+      labels: ["Jan", "Feb", "Mar", "Apr", "Meil", "Jun", "Jul", "Ags", "Sep", "Okt", "Nov", "Des"],
+      datasets: [dataFirst]
+    };
+
+    var chartOptions = {
+      legend: {
+        display: true,
+        position: 'top',
+        labels: {
+          boxWidth: 80,
+          fontColor: 'black'
+        }
+      }
+    };
+
+    var lineChart = new Chart(speedCanvas, {
+      type: 'line',
+      data: speedData,
+      options: chartOptions
+    });
+
+  // Area Chart 1
+  var ctx = document.getElementById("myAreaChart1");
+  var myAreaChart1 = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ["Minggu 1", "Minggu 2", "Minggu 3", "Minggu 4"],
+      datasets: [{
+        label: "Jeans",
+        lineTension: 0.3,
+        backgroundColor: "rgba(78, 115, 223, 0.05)",
+        borderColor: "rgba(78, 115, 223, 1)",
+        pointRadius: 3,
+        pointBackgroundColor: "rgba(78, 115, 223, 1)",
+        pointBorderColor: "rgba(78, 115, 223, 1)",
+        pointHoverRadius: 3,
+        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+        pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+        pointHitRadius: 10,
+        pointBorderWidth: 2,
+        data: [20000, 30000, 25000, 40000],
+      }],
+    },
+    options: {
+      maintainAspectRatio: false,
+      layout: {
+        padding: {
+          left: 10,
+          right: 25,
+          top: 25,
+          bottom: 0
+        }
+      },
+      scales: {
+        xAxes: [{
+          time: {
+            unit: 'date'
+          },
+          gridLines: {
+            display: false,
+            drawBorder: false
+          },
+          ticks: {
+            maxTicksLimit: 7
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            maxTicksLimit: 5,
+            padding: 10,
+            // Include a dollar sign in the ticks
+            callback: function(value, index, values) {
+              return ' ' + number_format(value);
+            }
+          },
+          gridLines: {
+            color: "rgb(234, 236, 244)",
+            zeroLineColor: "rgb(234, 236, 244)",
+            drawBorder: false,
+            borderDash: [2],
+            zeroLineBorderDash: [2]
+          }
+        }],
+      },
+      legend: {
+        display: false
+      },
+      tooltips: {
+        backgroundColor: "rgb(255,255,255)",
+        bodyFontColor: "#858796",
+        titleMarginBottom: 10,
+        titleFontColor: '#6e707e',
+        titleFontSize: 14,
+        borderColor: '#dddfeb',
+        borderWidth: 1,
+        xPadding: 15,
+        yPadding: 15,
+        displayColors: false,
+        intersect: false,
+        mode: 'index',
+        caretPadding: 10,
+        callbacks: {
+          label: function(tooltipItem, chart) {
+            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+            return datasetLabel + ' : ' + number_format(tooltipItem.yLabel);
+          }
+        }
+      }
+    }
+  });
+
+  // Area Chart 2
+  var ctx = document.getElementById("myAreaChart4");
+  var myAreaChart4 = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ["Minggu 1", "Minggu 2", "Minggu 3", "Minggu 4"],
+      datasets: [{
+        label: "Jeans",
+        lineTension: 0.3,
+        backgroundColor: "rgba(78, 115, 223, 0.05)",
+        borderColor: "rgba(78, 115, 223, 1)",
+        pointRadius: 3,
+        pointBackgroundColor: "rgba(78, 115, 223, 1)",
+        pointBorderColor: "rgba(78, 115, 223, 1)",
+        pointHoverRadius: 3,
+        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+        pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+        pointHitRadius: 10,
+        pointBorderWidth: 2,
+        data: [40000, 25000, 30000, 20000],
+      }],
+    },
+    options: {
+      maintainAspectRatio: false,
+      layout: {
+        padding: {
+          left: 10,
+          right: 25,
+          top: 25,
+          bottom: 0
+        }
+      },
+      scales: {
+        xAxes: [{
+          time: {
+            unit: 'date'
+          },
+          gridLines: {
+            display: false,
+            drawBorder: false
+          },
+          ticks: {
+            maxTicksLimit: 7
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            maxTicksLimit: 5,
+            padding: 10,
+            // Include a dollar sign in the ticks
+            callback: function(value, index, values) {
+              return ' ' + number_format(value);
+            }
+          },
+          gridLines: {
+            color: "rgb(234, 236, 244)",
+            zeroLineColor: "rgb(234, 236, 244)",
+            drawBorder: false,
+            borderDash: [2],
+            zeroLineBorderDash: [2]
+          }
+        }],
+      },
+      legend: {
+        display: false
+      },
+      tooltips: {
+        backgroundColor: "rgb(255,255,255)",
+        bodyFontColor: "#858796",
+        titleMarginBottom: 10,
+        titleFontColor: '#6e707e',
+        titleFontSize: 14,
+        borderColor: '#dddfeb',
+        borderWidth: 1,
+        xPadding: 15,
+        yPadding: 15,
+        displayColors: false,
+        intersect: false,
+        mode: 'index',
+        caretPadding: 10,
+        callbacks: {
+          label: function(tooltipItem, chart) {
+            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+            return datasetLabel + ' : ' + number_format(tooltipItem.yLabel);
+          }
+        }
+      }
+    }
+  });
+
+  </script>
+
+{% endblock content %}

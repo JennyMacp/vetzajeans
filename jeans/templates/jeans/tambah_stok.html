@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- page content -->
+<div class="right_col" role="main">
+  <div class="">
+
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Tambah Stok Jeans</h3>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+    
+    <div class="x_panel">
+      <div class="x_content">
+        <form action="" method="post">
+          {% csrf_token %}
+          <br>
+          <div class="field item form-group">
+            <label class="col-form-label col-md-3 col-sm-3  label-align">Id. Jeans<span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6">
+              {{ form.idjeans }}
+              <!-- <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="name" required="required" /> -->
+            </div>
+          </div>
+          <div class="field item form-group">
+            <label class="col-form-label col-md-3 col-sm-3  label-align">Merk<span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6">
+              {{ form.merk }}
+              <!-- <input class="form-control" class='optional' name="occupation" data-validate-length-range="5,15" type="text" /></div> -->
+            </div>
+          </div>
+          <div class="field item form-group">
+            <label class="col-form-label col-md-3 col-sm-3  label-align">Ukuran<span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6">
+              {{ form.ukuran }}
+              <!-- <input class="form-control" name="email" class='email' required="required" type="email" /></div> -->
+            </div>
+          </div>
+          <div class="field item form-group">
+            <label class="col-form-label col-md-3 col-sm-3  label-align">Stok<span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6">
+              {{ form.stok }}
+              <!-- <input class="form-control" type="email" class='email' name="confirm_email" data-validate-linked='email' required='required' /></div> -->
+            </div>
+          </div>
+          <div class="field item form-group">
+            <label class="col-form-label col-md-3 col-sm-3  label-align">Harga Satuan <span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6">
+              {{ form.harga }}
+              <!-- <input class="form-control" type="number" class='number' name="number" data-validate-minmax="10,100" required='required'></div> -->
+            </div>
+          </div>
+          <div class="field item form-group">
+            <label class="col-form-label col-md-3 col-sm-3  label-align">Keterangan<span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6">
+              {{ form.keterangan }}
+              <!-- <textarea required="required" name='message'></textarea></div> -->
+            </div>
+          </div>
+          <div class="field item form-group">
+            <label class="col-form-label col-md-3 col-sm-3  label-align">Tanggal<span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6">
+              {{ form.tanggal }}
+              <!-- <textarea required="required" name='message'></textarea></div> -->
+            </div>
+          </div>
+          <div class="ln_solid">
+            <br>
+            <div class="form-group">
+              <div class="col-md-6 offset-md-3">
+                <button type='submit' class="btn btn-primary">Submit</button>
+                <button type='reset' class="btn btn-success">Reset</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- /page content -->
+
+{% endblock content %}

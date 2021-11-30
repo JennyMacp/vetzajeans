@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- page content -->
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3><b>Data Jeans Terjual</b></h3>
+      </div>
+
+      <div class="title_right">
+        <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+          <div class="input-group">
+          <!--   <input type="text" class="form-control" placeholder="Search for...">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button">Go!</button>
+            </span> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-12 col-sm-12  ">
+        <div class="x_panel">
+          <!-- <div class="x_title">
+            <h2>Table design <small>Custom design</small></h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Settings 1</a>
+                    <a class="dropdown-item" href="#">Settings 2</a>
+                  </div>
+              </li>
+              <li><a class="close-link"><i class="fa fa-close"></i></a>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+          </div> -->
+
+          <div class="x_content">
+            <a href="/jual/jeans-terjual">
+              <button class="btn btn-primary">Tambah Jeans Terjual</button>
+            </a>
+            &emsp;| &emsp;
+            <button class="btn btn-primary" id="btnDownload" value="Export">Unduh Data</button>
+            <!-- <p>Add class <code>bulk_action</code> to table for bulk actions options on row select</p> -->
+            <br>
+            <div class="table-responsive">
+              <table class="table table-striped jambo_table bulk_action" id="dataJual">
+                <thead>
+                  <tr class="headings">
+                    <!-- <th>
+                      <input type="checkbox" id="check-all" class="flat">
+                    </th> -->
+                    <th class="column-title">Id. Jeans </th>
+                    <th class="column-title">Merk </th>
+                    <th class="column-title">Ukuran </th>
+                    <th class="column-title">Jumlah </th>
+                    <th class="column-title">Harga </th>
+                    <th class="column-title">Keterangan </th>
+                    <th class="column-title">Tanggal </th>
+                    <th class="column-title no-link last"><span class="nobr">Action</span>
+                    </th>
+                    <!-- <th class="bulk-actions" colspan="7">
+                      <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                    </th> -->
+                  </tr>
+                </thead>
+                
+                <tbody>
+                  {% for j in datajual %}
+                  <tr class="odd pointer">
+                    <!-- <td class="a-center ">
+                      <input type="checkbox" class="flat" name="table_records">
+                    </td> -->
+                    <td class=" ">{{ j.idjeans }}</td>
+                    <td class=" ">{{ j.merk }}</td>
+                    <td class=" ">{{ j.ukuran }}</td>
+                    <td class=" ">{{ j.jumlah }}</td>
+                    <td class=" ">{{ j.harga }}</td>
+                    <td class=" ">{{ j.keterangan }}</td>
+                    <td class=" ">{{ j.tanggal }}</td>
+                    <td class=" last">
+                      <a href="{% url 'ubah' j.id %}" class="fa fa-edit">
+                        <!-- <img src="{% static 'images/pencil.png' %}" height="15px"> -->
+                      </a> 
+                      &emsp;
+                      <form action="{% url 'hapus' j.id %}" method="POST" class="d-inline">
+                        {% csrf_token %}
+                        <input type="image" src="{% static 'images/bin.png' %}" height="13px">
+                        <!-- <button type="submit" class="btn fa fa-trash">
+                          <img src="{% static 'images/bin.png' %}" height="15px">
+                        </button> -->
+                      </form>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+      
+    
+          </div>
+        </div>
+    </div>
+    
+  </div>
+</div>
+<!-- /page content -->
+
+
+
+{% endblock content %}
